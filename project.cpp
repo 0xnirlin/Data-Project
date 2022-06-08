@@ -5,99 +5,9 @@
 #include "queue.cpp"
 #include "LinkedList.cpp"
 #include "readfile.cpp"
+#include "huffman.cpp"
 
 using namespace std;
-
-
-string bigStr;
-void print_codes(NodeL *node, string str,linkedList &LL)
-{
-
-    if (node != nullptr)
-    {
-
-        if (node->value != '*')
-        {
-
-            // cout << node->value << ": " << str << endl;
-            node->code = str;
-            LL.assignCode(str, node->value);
-        }
-
-        print_codes(node->left, str + "0", LL);
-        print_codes(node->right, str + "1", LL);
-    }
-   
-}
-
-NodeL* encodeHuffman(PQueue &queue, int length, linkedList &LL, bool optimised)
-{
-    NodeL *left, *right, *top, top2;
- 
-    int  i = 1;
-
-    while (i < length)
-    {
-
-        left = queue.top();
-        queue.Remove();
-        right = queue.top();
-        queue.Remove();
-
-        top = new NodeL('*', left->freq + right->freq, left, right);
-        if(optimised == true)
-        {
-        queue.insert(top);
-
-        }
-        else{
-            queue.insertUn(top);
-        }
-       i++;
-    }
-    // cout << "TT: " << top->left->left->left << endl;
-
-    print_codes(top, "",LL);
-        cout<<"Encoded String: "<<bigStr<<endl;
-
-    return top;
-}
-
-void decode(NodeL *top, string str)
-{
-     string ans = "";
-    NodeL* curr = top;
-    for (int i=0;i<str.size();i++)
-    {
-        if (str[i] == '0')
-           curr = curr->left;
-        else
-           curr = curr->right;
-  
-        // reached leaf node
-        if (curr->left==NULL and curr->right==NULL)
-        {
-            ans += curr->value;
-            curr = top;
-        }
-    }
-    cout<<endl;
-    cout<<"\t\t"<<ans<<endl;
-    cout<<endl;
-    
-
-
-}
-
-string encodedText(linkedList &LL){
-    string result = "";
-    for(int i=0; i<rawText.size(); i++)
-    {
-        result += LL.getCode(rawText[i]);
-    }
-    return result;
-}
-
 
 
 
@@ -217,11 +127,17 @@ int main()
    } 
 
 
-   if(choice == 2)
+   else if(choice == 2)
    {
        cout<<"\n\t\tDestructing the trees and exiting the program......"<<endl;
        exit(0);
    }
+   else
+   {
+       cout<<"\n\t\tInvalid Input\n";
+       goto menu;
+   }
+   
 
 
  
