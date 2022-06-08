@@ -1,0 +1,14 @@
+A string of symbols aadbaaca would be encoded as 0011100001010. This would yield
+compression considering the original requires 8 bits per symbol. So 64 bits have been reduced to
+13 bits. The reason we get compression is that the symbol “a” occurs quite frequently in the
+original and the Huffman code uses just one bit to encode it. There is a simple process to
+decoding a Huffman code. Start at the root of the tree. If you are at a leaf output the symbol.
+Otherwise read a bit and go left if is 0 and go right if is 1 and continue in that manner until
+reaching a leaf. An optimal Huffman code is one that produces the shortest code given
+frequencies for the symbols.
+It turns out there is an elegant algorithm for generating an optimal Huffman code. The algorithm
+uses a priority queue. First you need to calculate the frequency of each symbol in the input.
+Make a leaf node for each symbol and store its frequency in the node. Repeatedly do the
+following, find the two trees with the smallest frequencies. Make them the left and right children
+of a new node whose frequency the sum of the two frequencies. When one tree remains we are
+done. In the example above the frequencies are a:5, b:1, c:1, d:1.
